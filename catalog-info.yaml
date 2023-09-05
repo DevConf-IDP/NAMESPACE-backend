@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: DevConf-IDP-poi-backend-app-dev
+  annotations:
+    argocd/app-name: DevConf-IDP-poi-backend-app-dev
+    backstage.io/kubernetes-id: DevConf-IDP-poi-backend-app-dev
+    backstage.io/kubernetes-namespace: DevConf-IDP
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=DevConf-IDP-poi-backend-app-dev'
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: DevConf-IDP/NAMESPACE-backend
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.summit23.0x74.p1.openshiftapps.com/dev-pipelines/ns/DevConf-IDP/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.summit23.0x74.p1.openshiftapps.com/k8s/ns/DevConf-IDP/deployments/poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.summit23.0x74.p1.openshiftapps.com/#https://github.com/DevConf-IDP/NAMESPACE-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "sfs"
+  system: workshop-system-DevConf-IDP
+  providesApis:
+    - backend-api-DevConf-IDP
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-DevConf-IDP
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "sfs"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-DevConf-IDP
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://poi-backend-app-DevConf-IDP.apps.summit23.0x74.p1.openshiftapps.com/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/DevConf-IDP/NAMESPACE-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "sfs"
+  system: workshop-system-DevConf-IDP
+  definition:
+    $text: https://github.com/DevConf-IDP/NAMESPACE-backend/tree/main/src/main/resources/META-INF/openapi.yaml
